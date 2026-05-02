@@ -18,10 +18,10 @@ export default function Dashboard() {
 
   const isDateInRange = (dateStr: string, filter: TimeFilter) => {
     // Todo el tiempo removido
-    
+
     const [year, month, day] = dateStr.split('-');
     const date = new Date(Number(year), Number(month) - 1, Number(day));
-    
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -83,7 +83,7 @@ export default function Dashboard() {
     .find(r => r.nextDate >= todayStr || r.nextDate < todayStr); // Find any due or upcoming
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
@@ -167,9 +167,19 @@ export default function Dashboard() {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip 
-                  formatter={(value: number) => isSensitiveHidden ? '****' : `$${value.toFixed(2)}`}
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                <Tooltip
+                  formatter={(value?: number) =>
+                    isSensitiveHidden
+                      ? '****'
+                      : value !== undefined
+                        ? `$${value.toFixed(2)}`
+                        : ''
+                  }
+                  contentStyle={{
+                    borderRadius: '12px',
+                    border: 'none',
+                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                  }}
                 />
                 <Legend />
               </PieChart>
